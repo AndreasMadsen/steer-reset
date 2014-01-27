@@ -1,0 +1,35 @@
+<script>
+(function () {
+  window.openDatabase = window.openDatabase || window.webkitOpenDatabase;
+
+  if (!window.openDatabase) {
+    return console.log(JSON.stringify('blocked'));
+  }
+
+  //
+  // everything below is for future reference
+  //
+
+  // A simple error handler
+  function errorHandler(err) {
+    throw err;
+  }
+
+  function open(callback) {
+    var dbSize = 5 * 1024 * 1024; // 5MB
+    var db = window.openDatabase("Todo", "1.0", "Todo manager", dbSize);
+    db.transaction(function(tx) {
+      tx.executeSql("CREATE TABLE IF NOT EXISTS todo(ID INTEGER PRIMARY KEY ASC, todo TEXT, added_on DATETIME)", [], function () {
+        callback(tx, db);
+      }, errorHandler);
+    });
+  }
+
+  open(function (tx) {
+    var addedOn = new Date();
+  tx.executeSql("INSERT INTO todo(todo, added_on) VALUES (?,?)", ["Lorem Ipsum", addedOn], function () {
+      console.log(JSON.stringify('done'));
+    }, errorHandler);
+  });
+})();
+</script>

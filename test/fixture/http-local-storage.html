@@ -1,0 +1,14 @@
+<script>
+(function () {
+  if (!window.localStorage) {
+    return console.log(JSON.stringify('blocked'));
+  }
+
+  //
+  // everything below is for future reference
+  //
+
+  window.localStorage.setItem(Date.now(), "local");
+  return console.log(JSON.stringify('done'));
+})();
+</script>

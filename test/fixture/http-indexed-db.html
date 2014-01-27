@@ -1,0 +1,48 @@
+<script>
+(function () {
+  window.indexedDB = window.indexedDB || window.webkitIndexedDB;
+  window.IDBTransaction = window.IDBTransaction || window.webkitIDBTransaction;
+  window.IDBKeyRange = window.IDBKeyRange || window.webkitIDBKeyRange;
+
+  if (!window.indexedDB) {
+    return console.log(JSON.stringify('blocked'));
+  }
+
+  function onerror(err) {
+    throw err;
+  }
+
+  function open(callback) {
+    var request = indexedDB.open("todos");
+
+    request.onupgradeneeded = function(e) {
+      var db = e.target.result;
+
+      if(!db.objectStoreNames.contains("todo")) {
+        db.createObjectStore("todo", {keyPath: "timeStamp"});
+      }
+
+      e.target.transaction.oncomplete = function () {
+        callback(db);
+      };
+    };
+
+    request.onerror = onerror;
+  }
+
+  open(function (db) {
+    var store = db.transaction(["todo"], "readwrite").objectStore("todo");
+
+    var request = store.put({
+      "text": "Lorem Ipsum",
+      "timeStamp": new Date().getTime()
+    });
+
+    request.onsuccess = function(e) {
+      console.log(JSON.stringify('done'));
+    };
+
+    request.onerror = onerror;
+  });
+})();
+</script>

@@ -1,0 +1,14 @@
+<script>
+(function () {
+  if (!window.sessionStorage) {
+    return console.log(JSON.stringify('blocked'));
+  }
+
+  //
+  // everything below is for future reference
+  //
+
+  window.sessionStorage.setItem(Date.now(), "session");
+  return console.log(JSON.stringify('done'));
+})();
+</script>

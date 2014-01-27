@@ -1,0 +1,26 @@
+{
+  "name": "steer-reset",
+  "description": "Reset the state in google chrome",
+  "version": "0.2.0",
+  "author": "Andreas Madsen <amwebdk@gmail.com>",
+  "main": "./steer-reset.js",
+  "scripts": {
+    "test": "rm -rf test/cache && rm -rf test/chrome.out && tap test/browser/*"
+  },
+  "repository" : {
+    "type": "git",
+    "url": "git://github.com/AndreasMadsen/steer-reset.git"
+  },
+  "keywords": [
+    "google chrome",
+    "steer",
+    "reset"
+  ],
+  "devDependencies": {
+    "tap": "0.4.x",
+    "steer": "0.4.x",
+    "filed": "0.1.x",
+    "director": "1.2.x"
+  },
+  "license": "MIT"
+}
