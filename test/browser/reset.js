@@ -163,8 +163,7 @@ prepear(function(err, host) {
               httpOnly: false,
               secure: false,
               session: true
-            }],
-            cookiesString: ''
+            }]
           });
 
           // check that the expires is within the allowed range
@@ -208,8 +207,7 @@ prepear(function(err, host) {
 
             // The browser has no cookies
             t.deepEqual(data, {
-                cookies: [],
-                cookiesString: ''
+                cookies: []
             });
 
             t.end();
@@ -227,10 +225,10 @@ prepear(function(err, host) {
       t.equal(status, 'done');
     });
 
-    chrome.inspector.DOMStorage.once('addDOMStorage', function(info) {
+    chrome.inspector.DOMStorage.once('domStorageItemAdded', function(info) {
       console.log('test:', info.storage.id);
 
-      chrome.inspector.DOMStorage.getDOMStorageEntries(
+      chrome.inspector.DOMStorage.getDOMStorageItems(
         info.storage.id,
         function(err, info) {
           t.equal(err, null);
@@ -243,7 +241,7 @@ prepear(function(err, host) {
   });
 
   test('local storage data removed', function(t) {
-    chrome.plugins.resetState(function(err) {
+    reset(chrome, function(err) {
       t.equal(err, null);
 
       writeSessionData(host, 'local-storage',
@@ -253,10 +251,10 @@ prepear(function(err, host) {
         }
       );
 
-      chrome.inspector.DOMStorage.once('addDOMStorage', function(info) {
+      chrome.inspector.DOMStorage.once('domStorageItemAdded', function(info) {
         console.log('test:', info.storage.id);
 
-        chrome.inspector.DOMStorage.getDOMStorageEntries(
+        chrome.inspector.DOMStorage.getDOMStorageItems(
           info.storage.id,
           function(err, info) {
             t.equal(err, null);
